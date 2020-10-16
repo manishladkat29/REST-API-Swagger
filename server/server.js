@@ -395,12 +395,19 @@ app.get('/',cache(100), (req,res)=>{
 });                                                                                                                                                         
    
 app.get('/say', (req, res) => {
- 
-	axios.get('https://4y4o7bzskj.execute-api.us-east-1.amazonaws.com/First?keyword=' + req.query.keyword).then(d=>{
+	if(req.query.keyword != null && req.query.keyword.length > 0){ 
+		axios.get('https://4y4o7bzskj.execute-api.us-east-1.amazonaws.com/First?keyword=' + req.query.keyword).then(d=>{
 		res.json(d.data);
-	}).catch(err => {
-		console.log(err);
-	});
+		}).catch(err => {
+			console.log(err);
+		});
+	}else{
+		const response = {
+			statusCode: 400,
+			body: JSON.stringify('Query parameter keyword not provided')
+		};
+		res.json(response);
+	}
 });
                                                                                                                                                          
 app.listen(port,()=>{                                                                                                                                       
