@@ -8,6 +8,8 @@ const cors= require('cors');
 const swaggerJsdoc= require('swagger-jsdoc');
 const swaggerUi= require('swagger-ui-express');
 
+const axios = require('axios');
+
 app.use(cors());
 const options = {
     swaggerDefinition: {
@@ -391,7 +393,16 @@ app.get('/',cache(100), (req,res)=>{
         var data= {"url3":'http://165.227.201.89:3000/company'};  
         res.json(data);                                                                                                                                     
 });                                                                                                                                                         
-                                                                                                                                                            
+   
+app.get('/say', (req, res) => {
+ 
+	axios.get('https://4y4o7bzskj.execute-api.us-east-1.amazonaws.com/First?keyword=' + req.query.keyword).then(d=>{
+		res.json(d.data);
+	}).catch(err => {
+		console.log(err);
+	});
+});
+                                                                                                                                                         
 app.listen(port,()=>{                                                                                                                                       
 console.log(`Applications is listening at http://165.227.201.89:${port}`);                                                                                           
 });
